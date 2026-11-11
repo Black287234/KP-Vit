@@ -1,0 +1,69 @@
+  Determining projects to restore...
+  Restored /home/runner/work/KP-Vit/KP-Vit/EquipmentBooking/EquipmentBooking.csproj (in 1.85 sec).
+  Restored /home/runner/work/KP-Vit/KP-Vit/EquipmentBooking.Tests/EquipmentBooking.Tests.csproj (in 1.84 sec).
+  EquipmentBooking -> /home/runner/work/KP-Vit/KP-Vit/EquipmentBooking/bin/Release/net10.0/EquipmentBooking.dll
+  EquipmentBooking.Tests -> /home/runner/work/KP-Vit/KP-Vit/EquipmentBooking.Tests/bin/Release/net10.0/EquipmentBooking.Tests.dll
+Test run for /home/runner/work/KP-Vit/KP-Vit/EquipmentBooking.Tests/bin/Release/net10.0/EquipmentBooking.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.15)
+[xUnit.net 00:00:00.14]   Discovering: EquipmentBooking.Tests
+[xUnit.net 00:00:00.27]   Discovered:  EquipmentBooking.Tests
+[xUnit.net 00:00:00.33]   Starting:    EquipmentBooking.Tests
+  Passed EquipmentBooking.Tests.BookingRulesTests.Пересечение_СБронью11_13_ВерныйРезультат(sh: 12, sm: 59, eh: 15, em: 0, expected: True) [22 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Пересечение_СБронью11_13_ВерныйРезультат(sh: 12, sm: 0, eh: 14, em: 0, expected: True) [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Пересечение_СБронью11_13_ВерныйРезультат(sh: 11, sm: 30, eh: 12, em: 30, expected: True) [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Пересечение_СБронью11_13_ВерныйРезультат(sh: 13, sm: 0, eh: 15, em: 0, expected: False) [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Пересечение_СБронью11_13_ВерныйРезультат(sh: 10, sm: 0, eh: 14, em: 0, expected: True) [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Пересечение_СБронью11_13_ВерныйРезультат(sh: 10, sm: 0, eh: 12, em: 0, expected: True) [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Пересечение_СБронью11_13_ВерныйРезультат(sh: 9, sm: 0, eh: 11, em: 0, expected: False) [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Период_14ДнейИОднаМинута_Ошибка [6 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Отмена_РазныеСостояния_ВерныйОтвет(status: Cancelled, endHour: 12, expected: "Бронь уже отменена") [1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Отмена_РазныеСостояния_ВерныйОтвет(status: Active, endHour: 8, expected: "Нельзя отменить завершённую бронь") [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Отмена_РазныеСостояния_ВерныйОтвет(status: Completed, endHour: 8, expected: "Нельзя отменить завершённую бронь") [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Отмена_РазныеСостояния_ВерныйОтвет(status: Active, endHour: 12, expected: null) [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Период_ОкончаниеРавноНачалу_Ошибка [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Период_ОкончаниеРаньшеНачала_Ошибка [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Период_Ровно14Дней_Допустим [< 1 ms]
+  Passed EquipmentBooking.Tests.BookingRulesTests.Период_НачалоВПрошлом_Ошибка [6 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ПересечениеНаОднуМинуту_Отклоняется [1 s]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_НеизвестноеОборудование_ЗаписьНеНайдена [24 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.ОтменитьБронь_БезПричины_Отклоняется [13 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ФильтрПоСотрудникуИОборудованию_НаходитНужныеБрони [1 s]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.Доступность_ЗанятоеИНаОбслуживании_НеВходятВСвободные [68 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_СвободныйПериод_СохраняетсяСЗаписьюВЖурнале [97 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.ОтменитьБронь_Повторно_Отклоняется [14 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ПоискВКаталоге_ПоНазваниюБезУчётаРегистра [27 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_НачинаетсяВМоментОкончанияДругой_Допустимо [33 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_КонецРаньшеНачала_Отклоняется [9 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.Завершение_ДоОкончанияПериода_БроньОстаётсяАктивной [13 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ТекущиеБрони_ТолькоАктивныеСНеНаступившимОкончанием [50 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.ОтменитьБронь_СПричиной_СтатусОтменено [15 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.СписанноеОборудование_ВернутьВРаботу_Отклоняется [25 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.Завершение_ПослеОкончанияПериода_СтатусСтавитсяАвтоматически [14 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ОтменённаяБроньНеМешает_Допустимо [13 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ПустаяЦель_Отклоняется [9 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.ОтменитьБронь_НеизвестныйId_ЗаписьНеНайдена [11 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ЗавершённыеБрони_ОтменённыеИЗавершённыеПослеОкончания [53 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ОборудованиеНедоступно_Отклоняется(state: WrittenOff) [14 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ОборудованиеНедоступно_Отклоняется(state: Maintenance) [11 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.Доступность_ПериодСразуПослеБрони_ПроекторСвободен [20 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_НеизвестныйСотрудник_ЗаписьНеНайдена [10 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ПериодПересекается_Отклоняется [12 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ДругоеОборудованиеНаТоЖеВремя_Допустимо [14 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ДатаВПрошлом_Отклоняется [10 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ФильтрПоДатеИСтатусу_НаходитНужныеБрони [47 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.ОтменитьБронь_ПослеОкончания_Отклоняется [12 ms]
+  Passed EquipmentBooking.Tests.BookingServiceTests.СоздатьБронь_ДлиннееЧетырнадцатиДней_Отклоняется [9 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ИзменитьОборудование_НеизвестныйId_ЗаписьНеНайдена [33 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.Сохранение_БроньЧитаетсяНовымКонтекстом [33 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.СписатьОборудование_ЕстьТекущиеБрони_Отклоняется [28 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ДобавитьОборудование_ПустоеНазвание_Отклоняется [14 ms]
+[xUnit.net 00:00:02.76]   Finished:    EquipmentBooking.Tests
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ДобавитьОборудование_ПовторИнвентарногоНомера_Отклоняется [16 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.ПоискВКаталоге_ПоИнвентарномуНомеруИСостоянию [20 ms]
+  Passed EquipmentBooking.Tests.SearchAndCatalogTests.Доступность_КонецРаньшеНачала_Ошибка [18 ms]
+
+Test Run Successful.
+Total tests: 52
+     Passed: 52
+ Total time: 3.6093 Seconds

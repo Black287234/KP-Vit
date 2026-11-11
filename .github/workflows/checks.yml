@@ -1,0 +1,53 @@
+# Ручные проверки в браузере на копии проекта из архива (git archive) и скриншоты для записки.
+name: checks
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install playwright==1.48.0
+      - name: Tests
+        run: dotnet test -c Release --logger "console;verbosity=normal" 2>&1 | tee test-output.txt
+      - name: Deploy from archive into a new folder
+        run: |
+          git archive -o /tmp/kp.zip HEAD
+          mkdir -p /tmp/deploy && cd /tmp/deploy && unzip -q /tmp/kp.zip
+          dotnet build EquipmentBooking -c Release
+      - name: Checks before restart
+        run: |
+          cd /tmp/deploy/EquipmentBooking
+          nohup dotnet run --no-build -c Release --urls http://localhost:5090 > /tmp/app1.log 2>&1 &
+          for i in $(seq 1 60); do curl -s http://localhost:5090/api/equipment > /dev/null && break; sleep 1; done
+          cd $GITHUB_WORKSPACE
+          python tools/screenshots.py before
+          pkill -f EquipmentBooking || true; sleep 3
+      - name: Checks after restart
+        run: |
+          cd /tmp/deploy/EquipmentBooking
+          nohup dotnet run --no-build -c Release --urls http://localhost:5090 > /tmp/app2.log 2>&1 &
+          for i in $(seq 1 60); do curl -s http://localhost:5090/api/equipment > /dev/null && break; sleep 1; done
+          cd $GITHUB_WORKSPACE
+          python tools/screenshots.py after
+          python tools/screenshots.py tests test-output.txt
+          pkill -f EquipmentBooking || true
+          cp test-output.txt docs/screenshots/test-output.txt
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add docs/screenshots
+          git commit -m "Скриншоты и фактические результаты проверок [skip ci]" || echo "нет изменений"
+          git push

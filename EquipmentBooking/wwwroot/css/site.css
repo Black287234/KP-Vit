@@ -1,0 +1,6 @@
+:root { --app-teal: #0f766e; --app-teal-dark: #134e4a; }
+body { background: #f6f8f8; }
+.app-nav { background: var(--app-teal-dark); }
+.card { border: none; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.btn-teal { background: var(--app-teal); color: #fff; }
+.btn-teal:hover { background: var(--app-teal-dark); color: #fff; }

@@ -1,0 +1,17 @@
+@page
+@model EquipmentBooking.Pages.Equipment.IndexModel
+@{
+    ViewData["Title"] = "Каталог";
+}
+<h1 class="h3 mb-3">Каталог оборудования</h1>
+<div class="card">
+    <table class="table mb-0 align-middle">
+        <thead><tr><th>Инв. номер</th><th>Название</th><th>Категория</th><th>Состояние</th></tr></thead>
+        <tbody>
+        @foreach (var e in Model.Items)
+        {
+            <tr><td>@e.InventoryNumber</td><td>@e.Name</td><td>@e.Category</td><td>@Html.DisplayFor(_ => e.State)</td></tr>
+        }
+        </tbody>
+    </table>
+</div>

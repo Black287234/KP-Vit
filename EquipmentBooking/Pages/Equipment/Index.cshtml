@@ -3,15 +3,53 @@
 @{
     ViewData["Title"] = "Каталог";
 }
-<h1 class="h3 mb-3">Каталог оборудования</h1>
-<div class="card">
-    <table class="table mb-0 align-middle">
-        <thead><tr><th>Инв. номер</th><th>Название</th><th>Категория</th><th>Состояние</th></tr></thead>
-        <tbody>
-        @foreach (var e in Model.Items)
-        {
-            <tr><td>@e.InventoryNumber</td><td>@e.Name</td><td>@e.Category</td><td>@Html.DisplayFor(_ => e.State)</td></tr>
-        }
-        </tbody>
-    </table>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h3 mb-0">Каталог оборудования</h1>
+    <a class="btn btn-teal" asp-page="Edit">+ Добавить оборудование</a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-5"><input name="Search" value="@Model.Search" class="form-control" placeholder="Название, инвентарный номер или категория" /></div>
+    <div class="col-md-3">
+        <select name="Category" class="form-select">
+            <option value="">Все категории</option>
+            @foreach (var c in Model.Categories)
+            {
+                <option value="@c" selected="@(c == Model.Category)">@c</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="State" class="form-select">
+            <option value="">Любое состояние</option>
+            <option value="Available" selected="@(Model.State == EquipmentState.Available)">Доступно</option>
+            <option value="Maintenance" selected="@(Model.State == EquipmentState.Maintenance)">На обслуживании</option>
+            <option value="WrittenOff" selected="@(Model.State == EquipmentState.WrittenOff)">Списано</option>
+        </select>
+    </div>
+    <div class="col-md-2 d-flex gap-2"><button class="btn btn-outline-primary w-100">Найти</button><a class="btn btn-outline-secondary" asp-page="Index">×</a></div>
+</form>
+
+<p class="text-muted">Найдено: @Model.Items.Count</p>
+<div class="row g-3">
+    @foreach (var e in Model.Items)
+    {
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 p-3 @(e.State == EquipmentState.WrittenOff ? "opacity-50" : "")">
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted small">@e.InventoryNumber · @e.Category</span>
+                    <partial name="_StateBadge" model="e.State" />
+                </div>
+                <h2 class="h6 mt-2 mb-1">@e.Name</h2>
+                <p class="small text-muted flex-grow-1">@e.Description</p>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-sm btn-outline-secondary" asp-page="Details" asp-route-id="@e.Id">Подробнее</a>
+                    @if (e.State == EquipmentState.Available)
+                    {
+                        <a class="btn btn-sm btn-teal" asp-page="/Bookings/Create" asp-route-equipmentId="@e.Id">Забронировать</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 </div>

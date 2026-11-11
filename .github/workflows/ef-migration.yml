@@ -1,0 +1,33 @@
+# Вспомогательный workflow: создаёт миграцию EF Core на сервере GitHub
+# и сохраняет её в репозиторий отдельным коммитом (запуск вручную)
+name: ef-migration
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Имя миграции'
+        required: true
+        default: 'InitialCreate'
+
+permissions:
+  contents: write
+
+jobs:
+  migration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet tool install --global dotnet-ef --version 10.0.15
+      - run: dotnet restore
+      - run: dotnet ef migrations add ${{ inputs.name }} --project EquipmentBooking
+      - name: Commit migration
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add EquipmentBooking/Migrations
+          git commit -m "Этап 2: миграция ${{ inputs.name }}"
+          git push

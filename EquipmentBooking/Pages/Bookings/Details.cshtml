@@ -1,0 +1,45 @@
+@page "{id:int}"
+@model EquipmentBooking.Pages.Bookings.DetailsModel
+@{
+    var b = Model.Item;
+    ViewData["Title"] = $"Бронь №{b.Id}";
+}
+<div asp-validation-summary="All" class="alert alert-danger"></div>
+<h1 class="h3 mb-3">Бронь №@b.Id <partial name="_StatusBadge" model="b.Status" /></h1>
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card p-4">
+            <dl class="row mb-0">
+                <dt class="col-sm-4">Оборудование</dt><dd class="col-sm-8"><a asp-page="/Equipment/Details" asp-route-id="@b.EquipmentId">@b.Equipment?.Name</a> (@b.Equipment?.InventoryNumber)</dd>
+                <dt class="col-sm-4">Сотрудник</dt><dd class="col-sm-8">@b.Employee?.FullName, @b.Employee?.Department</dd>
+                <dt class="col-sm-4">Период</dt><dd class="col-sm-8">@b.StartAt.ToString("dd.MM.yyyy HH:mm") – @b.EndAt.ToString("dd.MM.yyyy HH:mm")</dd>
+                <dt class="col-sm-4">Цель</dt><dd class="col-sm-8">@b.Purpose</dd>
+                @if (b.CancelReason != null)
+                {
+                    <dt class="col-sm-4">Причина отмены</dt><dd class="col-sm-8">@b.CancelReason (@b.CancelledAt?.ToString("dd.MM.yyyy HH:mm"))</dd>
+                }
+            </dl>
+        </div>
+        @if (Model.CanCancel)
+        {
+            <form method="post" class="card p-4 mt-3">
+                <label class="form-label" for="reason">Причина отмены</label>
+                <div class="d-flex gap-2">
+                    <input id="reason" name="reason" class="form-control" value="@Model.Reason" placeholder="Например: занятие перенесено" />
+                    <button class="btn btn-outline-danger text-nowrap">Отменить бронь</button>
+                </div>
+            </form>
+        }
+    </div>
+    <div class="col-lg-5">
+        <div class="card p-4">
+            <h2 class="h6">Журнал операций</h2>
+            <ul class="list-unstyled mb-0">
+                @foreach (var h in b.History.OrderBy(h => h.Date))
+                {
+                    <li class="mb-2"><b>@Html.DisplayFor(_ => h.Action)</b> · @h.Date.ToString("dd.MM.yyyy HH:mm")<br /><span class="text-muted small">@h.Comment</span></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

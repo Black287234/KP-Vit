@@ -1,0 +1,10 @@
+@model EquipmentState
+@{
+    var (css, text) = Model switch
+    {
+        EquipmentState.Available => ("bg-success-subtle text-success-emphasis", "Доступно"),
+        EquipmentState.Maintenance => ("bg-warning-subtle text-warning-emphasis", "На обслуживании"),
+        _ => ("bg-secondary-subtle text-secondary-emphasis", "Списано")
+    };
+}
+<span class="badge @css">@text</span>

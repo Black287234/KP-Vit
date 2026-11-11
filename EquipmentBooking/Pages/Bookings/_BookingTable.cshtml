@@ -1,0 +1,26 @@
+@model List<Booking>
+@if (Model.Count == 0)
+{
+    <div class="alert alert-light border">Броней нет.</div>
+}
+else
+{
+    <div class="card">
+    <table class="table table-hover mb-0 align-middle">
+        <thead><tr><th>№</th><th>Оборудование</th><th>Сотрудник</th><th>Период</th><th>Цель</th><th>Статус</th></tr></thead>
+        <tbody>
+        @foreach (var b in Model)
+        {
+            <tr>
+                <td><a asp-page="/Bookings/Details" asp-route-id="@b.Id">@b.Id</a></td>
+                <td>@b.Equipment?.Name <span class="text-muted small">@b.Equipment?.InventoryNumber</span></td>
+                <td>@b.Employee?.FullName</td>
+                <td class="text-nowrap">@b.StartAt.ToString("dd.MM.yyyy HH:mm") –<br />@b.EndAt.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@b.Purpose</td>
+                <td><partial name="_StatusBadge" model="b.Status" /></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+}

@@ -1,0 +1,45 @@
+@page
+@model EquipmentBooking.Pages.ScheduleModel
+@{
+    ViewData["Title"] = "График загрузки";
+    string[] names = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" };
+}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h3 mb-0">Загрузка оборудования на неделю</h1>
+    <div class="btn-group">
+        <a class="btn btn-outline-secondary" asp-page="Schedule" asp-route-start="@Model.Start.AddDays(-7).ToString("yyyy-MM-dd")">← Неделя назад</a>
+        <a class="btn btn-outline-secondary" asp-page="Schedule">Текущая</a>
+        <a class="btn btn-outline-secondary" asp-page="Schedule" asp-route-start="@Model.Start.AddDays(7).ToString("yyyy-MM-dd")">Неделя вперёд →</a>
+    </div>
+</div>
+<div class="card table-responsive">
+    <table class="table table-bordered mb-0 week">
+        <thead>
+            <tr>
+                <th>Оборудование</th>
+                @for (int d = 0; d < 7; d++)
+                {
+                    var day = Model.Start.AddDays(d);
+                    <th class="@(day == Model.Today ? "today" : "")">@names[d] @day.ToString("dd.MM")</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var row in Model.Rows)
+        {
+            <tr>
+                <td><a asp-page="/Equipment/Details" asp-route-id="@row.EquipmentId">@row.Title</a></td>
+                @for (int d = 0; d < 7; d++)
+                {
+                    <td class="@(Model.Start.AddDays(d) == Model.Today ? "today" : "")">
+                        @foreach (var slot in row.Days[d])
+                        {
+                            <div class="slot">@slot</div>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

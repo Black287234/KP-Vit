@@ -1,0 +1,62 @@
+@page
+@model EquipmentBooking.Pages.Bookings.CreateModel
+@{
+    ViewData["Title"] = "Новая бронь";
+}
+<h1 class="h3 mb-3">Забронировать оборудование</h1>
+<div class="row g-4">
+<form method="post" class="card p-4 col-lg-7">
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Form.EquipmentId" class="form-label"></label>
+        <select asp-for="Form.EquipmentId" class="form-select">
+            <option value="0">— выберите оборудование —</option>
+            @foreach (var e in Model.EquipmentList)
+            {
+                <option value="@e.Id">@e.Name (@e.InventoryNumber)</option>
+            }
+        </select>
+        <div class="form-text">В списке только оборудование в состоянии «Доступно для бронирования».</div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Form.EmployeeId" class="form-label"></label>
+        <select asp-for="Form.EmployeeId" class="form-select">
+            <option value="0">— выберите сотрудника —</option>
+            @foreach (var e in Model.Employees)
+            {
+                <option value="@e.Id">@e.FullName (@e.Department)</option>
+            }
+        </select>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Form.StartAt" class="form-label"></label>
+            <input asp-for="Form.StartAt" type="datetime-local" class="form-control" />
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Form.EndAt" class="form-label"></label>
+            <input asp-for="Form.EndAt" type="datetime-local" class="form-control" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Form.Purpose" class="form-label"></label>
+        <input asp-for="Form.Purpose" class="form-control" placeholder="Например: лекция в аудитории 305" />
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn btn-teal">Забронировать</button>
+        <a class="btn btn-outline-secondary" asp-page="/Availability">Сначала проверить, что свободно</a>
+    </div>
+</form>
+<div class="col-lg-5">
+    <div class="card p-3 small">
+        <b>Правила бронирования</b>
+        <ul class="mb-0 mt-2">
+            <li>период не должен пересекаться с другой активной бронью этого оборудования;</li>
+            <li>бронь, начинающаяся ровно в момент окончания другой, допустима;</li>
+            <li>окончание позже начала, начало — не в прошлом;</li>
+            <li>срок одной брони — не больше 14 дней;</li>
+            <li>оборудование на обслуживании и списанное бронировать нельзя.</li>
+        </ul>
+    </div>
+</div>
+</div>

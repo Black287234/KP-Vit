@@ -1,0 +1,42 @@
+@page "{id:int}"
+@model EquipmentBooking.Pages.Equipment.DetailsModel
+@{
+    var e = Model.Item;
+    ViewData["Title"] = e.Name;
+}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div>
+        <div class="text-muted small">@e.InventoryNumber · @e.Category</div>
+        <h1 class="h3 mb-0">@e.Name <partial name="_StateBadge" model="e.State" /></h1>
+    </div>
+    <div class="d-flex gap-2">
+        @if (e.State == EquipmentState.Available)
+        {
+            <a class="btn btn-teal" asp-page="/Bookings/Create" asp-route-equipmentId="@e.Id">Забронировать</a>
+        }
+        @if (e.State != EquipmentState.WrittenOff)
+        {
+            <a class="btn btn-outline-secondary" asp-page="Edit" asp-route-id="@e.Id">Изменить</a>
+        }
+    </div>
+</div>
+<p>@e.Description</p>
+
+@if (e.State != EquipmentState.WrittenOff)
+{
+    <form method="post" class="d-flex flex-wrap gap-2 mb-4">
+        <input type="hidden" name="id" value="@e.Id" />
+        @if (e.State != EquipmentState.Available)
+        {
+            <button class="btn btn-sm btn-outline-success" name="state" value="Available">Вернуть в работу</button>
+        }
+        @if (e.State != EquipmentState.Maintenance)
+        {
+            <button class="btn btn-sm btn-outline-warning" name="state" value="Maintenance">На обслуживание</button>
+        }
+        <button class="btn btn-sm btn-outline-danger" name="state" value="WrittenOff">Списать</button>
+    </form>
+}
+
+<h2 class="h5">Брони этого оборудования</h2>
+<partial name="/Pages/Bookings/_BookingTable.cshtml" model="Model.Bookings" />

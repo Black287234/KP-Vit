@@ -1,6 +1,12 @@
 :root { --app-teal: #0f766e; --app-teal-dark: #134e4a; }
-body { background: #f6f8f8; }
+body { background: #f4f7f7; }
 .app-nav { background: var(--app-teal-dark); }
 .card { border: none; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 .btn-teal { background: var(--app-teal); color: #fff; }
 .btn-teal:hover { background: var(--app-teal-dark); color: #fff; }
+.bg-teal { background: var(--app-teal); color: #fff; }
+.stat { font-size: 2.2rem; font-weight: 700; color: var(--app-teal-dark); }
+.nav-tabs .nav-link.active { color: var(--app-teal-dark); font-weight: 600; }
+.week td { vertical-align: top; min-width: 110px; font-size: .82rem; }
+.week .slot { background: #ccfbf1; border-left: 3px solid var(--app-teal); padding: 2px 4px; margin-bottom: 3px; border-radius: 3px; }
+.week .today { background: #f0fdfa; }

@@ -1,0 +1,10 @@
+@model BookingStatus
+@{
+    var (css, text) = Model switch
+    {
+        BookingStatus.Active => ("bg-teal", "Активно"),
+        BookingStatus.Cancelled => ("bg-secondary", "Отменено"),
+        _ => ("bg-dark-subtle text-dark", "Завершено")
+    };
+}
+<span class="badge @css">@text</span>

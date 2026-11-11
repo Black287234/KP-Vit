@@ -1,0 +1,10 @@
+@page
+@{
+    ViewData["Title"] = "Запись не найдена";
+    Response.StatusCode = 404;
+}
+<div class="alert alert-warning">
+    <h4 class="alert-heading">Запись не найдена (404)</h4>
+    <p class="mb-0">Такой страницы или записи нет. Проверьте адрес или вернитесь в каталог.</p>
+</div>
+<a class="btn btn-teal" asp-page="/Equipment/Index">В каталог</a>

@@ -1,0 +1,49 @@
+@page
+@model EquipmentBooking.Pages.AvailabilityModel
+@{
+    ViewData["Title"] = "Свободно ли оборудование";
+}
+<h1 class="h3 mb-3">Свободно ли оборудование?</h1>
+<form method="get" class="card p-3 mb-3">
+    <div class="row g-2 align-items-end">
+        <div class="col-md-4"><label class="form-label">С</label><input type="datetime-local" name="from" value="@Model.From.ToString("yyyy-MM-ddTHH:mm")" class="form-control" /></div>
+        <div class="col-md-4"><label class="form-label">По</label><input type="datetime-local" name="to" value="@Model.To.ToString("yyyy-MM-ddTHH:mm")" class="form-control" /></div>
+        <div class="col-md-4"><button class="btn btn-teal w-100">Проверить</button></div>
+    </div>
+</form>
+
+@if (Model.Error != null)
+{
+    <div class="alert alert-danger">@Model.Error</div>
+}
+else
+{
+    var free = Model.Rows.Where(r => r.IsFree).ToList();
+    var busy = Model.Rows.Where(r => !r.IsFree).ToList();
+    <h2 class="h5">Свободно: @free.Count</h2>
+    <div class="row g-2 mb-4">
+        @foreach (var r in free)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card p-3 h-100 border-start border-4 border-success">
+                    <div class="small text-muted">@r.Equipment.InventoryNumber · @r.Equipment.Category</div>
+                    <div class="fw-semibold mb-2">@r.Equipment.Name</div>
+                    <a class="btn btn-sm btn-teal align-self-start" asp-page="/Bookings/Create" asp-route-equipmentId="@r.Equipment.Id"
+                       asp-route-from="@Model.From.ToString("yyyy-MM-ddTHH:mm")" asp-route-to="@Model.To.ToString("yyyy-MM-ddTHH:mm")">Забронировать на этот период</a>
+                </div>
+            </div>
+        }
+    </div>
+    <h2 class="h5">Недоступно: @busy.Count</h2>
+    <div class="card">
+        <table class="table mb-0">
+            <thead><tr><th>Оборудование</th><th>Причина</th></tr></thead>
+            <tbody>
+            @foreach (var r in busy)
+            {
+                <tr><td>@r.Equipment.Name <span class="text-muted small">@r.Equipment.InventoryNumber</span></td><td>@r.Reason</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

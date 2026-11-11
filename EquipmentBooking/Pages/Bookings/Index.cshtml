@@ -1,0 +1,51 @@
+@page
+@model EquipmentBooking.Pages.Bookings.IndexModel
+@{
+    ViewData["Title"] = "Брони";
+    var f = Model.Filter;
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Бронирования</h1>
+    <a class="btn btn-teal" asp-page="Create">+ Забронировать</a>
+</div>
+
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item"><a class="nav-link @(f.Tab == "current" ? "active" : "")" asp-page="Index" asp-route-Tab="current">Текущие</a></li>
+    <li class="nav-item"><a class="nav-link @(f.Tab == "finished" ? "active" : "")" asp-page="Index" asp-route-Tab="finished">Завершённые и отменённые</a></li>
+    <li class="nav-item"><a class="nav-link @(string.IsNullOrEmpty(f.Tab) ? "active" : "")" asp-page="Index">Все</a></li>
+</ul>
+
+<form method="get" class="row g-2 mb-3">
+    <input type="hidden" name="Tab" value="@f.Tab" />
+    <div class="col-md-3">
+        <select name="EquipmentId" class="form-select">
+            <option value="">Всё оборудование</option>
+            @foreach (var e in Model.EquipmentList)
+            {
+                <option value="@e.Id" selected="@(e.Id == f.EquipmentId)">@e.Name (@e.InventoryNumber)</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select name="EmployeeId" class="form-select">
+            <option value="">Все сотрудники</option>
+            @foreach (var e in Model.Employees)
+            {
+                <option value="@e.Id" selected="@(e.Id == f.EmployeeId)">@e.FullName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2"><input type="date" name="Date" value="@f.Date?.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <div class="col-md-2">
+        <select name="Status" class="form-select">
+            <option value="">Любой статус</option>
+            <option value="Active" selected="@(f.Status == BookingStatus.Active)">Активно</option>
+            <option value="Completed" selected="@(f.Status == BookingStatus.Completed)">Завершено</option>
+            <option value="Cancelled" selected="@(f.Status == BookingStatus.Cancelled)">Отменено</option>
+        </select>
+    </div>
+    <div class="col-md-2 d-flex gap-2"><button class="btn btn-outline-primary w-100">Показать</button><a class="btn btn-outline-secondary" asp-page="Index" asp-route-Tab="@f.Tab">×</a></div>
+</form>
+
+<p class="text-muted">Найдено: @Model.Items.Count</p>
+<partial name="_BookingTable" model="Model.Items" />

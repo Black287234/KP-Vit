@@ -1,7 +1,20 @@
 @page
+@model EquipmentBooking.Pages.IndexModel
 @{
     ViewData["Title"] = "Главная";
 }
-<h1 class="h3 mb-3">Модуль бронирования оборудования</h1>
-<p class="lead">Сотрудник выбирает оборудование и период использования, модуль проверяет, свободно ли оно, и создаёт бронь.</p>
-<a class="btn btn-teal" asp-page="/Equipment/Index">Открыть каталог</a>
+<h1 class="h3 mb-1">Бронирование оборудования</h1>
+<p class="text-muted mb-4">Сотрудник выбирает оборудование и период, модуль проверяет, что оно свободно, и создаёт бронь.</p>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="card p-3"><div class="stat">@Model.Available</div><div>доступно к бронированию</div></div></div>
+    <div class="col-md-3"><div class="card p-3"><div class="stat">@Model.Current</div><div>текущих броней</div></div></div>
+    <div class="col-md-3"><div class="card p-3"><div class="stat">@Model.Today</div><div>броней на сегодня</div></div></div>
+    <div class="col-md-3"><div class="card p-3"><div class="stat">@Model.Maintenance</div><div>на обслуживании</div></div></div>
+</div>
+
+<div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-teal" asp-page="/Availability">Проверить, что свободно</a>
+    <a class="btn btn-outline-secondary" asp-page="/Bookings/Create">Создать бронь</a>
+    <a class="btn btn-outline-secondary" asp-page="/Schedule">График на неделю</a>
+</div>

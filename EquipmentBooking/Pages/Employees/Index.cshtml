@@ -1,0 +1,26 @@
+@page
+@model EquipmentBooking.Pages.Employees.IndexModel
+@{
+    ViewData["Title"] = "Сотрудники";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Сотрудники</h1>
+    <a class="btn btn-teal" asp-page="Edit">+ Добавить сотрудника</a>
+</div>
+<div class="card">
+    <table class="table mb-0 align-middle">
+        <thead><tr><th>ФИО</th><th>Подразделение</th><th>Почта</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var e in Model.Items)
+        {
+            <tr>
+                <td>@e.FullName</td><td>@e.Department</td><td>@e.Email</td>
+                <td class="text-end text-nowrap">
+                    <a class="btn btn-sm btn-outline-secondary" asp-page="/Bookings/Index" asp-route-EmployeeId="@e.Id">Брони</a>
+                    <a class="btn btn-sm btn-outline-secondary" asp-page="Edit" asp-route-id="@e.Id">Изменить</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

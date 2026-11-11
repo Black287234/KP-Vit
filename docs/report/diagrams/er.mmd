@@ -1,0 +1,37 @@
+erDiagram
+    EQUIPMENT ||--o{ BOOKING : "бронируется"
+    EMPLOYEE ||--o{ BOOKING : "оформляет"
+    BOOKING ||--|{ BOOKING_HISTORY : "журнал"
+    EQUIPMENT {
+        int Id PK
+        string InventoryNumber UK "инвентарный номер"
+        string Name
+        string Category
+        string Description
+        enum State "Доступно / На обслуживании / Списано"
+    }
+    EMPLOYEE {
+        int Id PK
+        string FullName
+        string Department
+        string Email
+    }
+    BOOKING {
+        int Id PK
+        int EquipmentId FK
+        int EmployeeId FK
+        datetime StartAt
+        datetime EndAt
+        string Purpose
+        enum Status "Активно / Отменено / Завершено"
+        datetime CreatedAt
+        datetime CancelledAt
+        string CancelReason
+    }
+    BOOKING_HISTORY {
+        int Id PK
+        int BookingId FK
+        enum Action "Создано / Отменено / Завершено"
+        datetime Date
+        string Comment
+    }

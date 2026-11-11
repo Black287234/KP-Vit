@@ -1,0 +1,23 @@
+flowchart TB
+    U["Браузер сотрудника<br/>HTTP-клиент (.http)"]
+    subgraph P["Слой представления — Razor Pages"]
+        P1["Pages/Equipment<br/>каталог, карточка, редактирование"]
+        P2["Pages/Bookings<br/>список, создание, карточка и отмена"]
+        P3["Pages/Availability, Pages/Schedule<br/>свободно ли, график недели"]
+        P4["Minimal API /api/*"]
+    end
+    subgraph S["Слой предметной логики — Services"]
+        S1["BookingService<br/>создание, отмена, завершение,<br/>доступность, фильтры"]
+        S2["BookingRules<br/>пересечение периодов, проверка периода"]
+        S3["CatalogService, EmployeeService"]
+        S4["TimeProvider<br/>(текущее время)"]
+    end
+    subgraph D["Слой данных — Data"]
+        D1["AppDbContext (EF Core)<br/>Migrations, DbSeeder"]
+    end
+    DB[("SQLite<br/>booking.db")]
+    U --> P1 & P2 & P3 & P4
+    P1 & P2 & P3 & P4 --> S1 & S3
+    S1 --> S2
+    S1 --> S4
+    S1 & S3 --> D1 --> DB

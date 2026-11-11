@@ -1,0 +1,65 @@
+### Ручные проверки API модуля бронирования (REST Client в VS Code / Visual Studio 2026)
+### Перед запуском: dotnet run --project EquipmentBooking
+### Даты замените на завтрашние: запросы с датой в прошлом будут отклонены (это тоже проверка)
+
+@host = http://localhost:5090
+
+### 1. Каталог
+GET {{host}}/api/equipment
+
+### 2. Поиск по каталогу
+GET {{host}}/api/equipment?search=ноутбук
+
+### 3. Неизвестное оборудование → 404
+GET {{host}}/api/equipment/999
+
+### 4. Что свободно завтра 10:00–12:00
+GET {{host}}/api/availability?from=2026-11-13T10:00&to=2026-11-13T12:00
+
+### 5. Создать бронь (документ-камера, Id 10) → 201
+POST {{host}}/api/bookings
+Content-Type: application/json
+
+{ "equipmentId": 10, "employeeId": 1, "startAt": "2026-11-13T10:00", "endAt": "2026-11-13T12:00", "purpose": "Семинар" }
+
+### 6. Пересекающийся период → 409
+POST {{host}}/api/bookings
+Content-Type: application/json
+
+{ "equipmentId": 10, "employeeId": 2, "startAt": "2026-11-13T11:00", "endAt": "2026-11-13T13:00", "purpose": "Лекция" }
+
+### 7. Начинается ровно в момент окончания → 201
+POST {{host}}/api/bookings
+Content-Type: application/json
+
+{ "equipmentId": 10, "employeeId": 2, "startAt": "2026-11-13T12:00", "endAt": "2026-11-13T14:00", "purpose": "Лекция" }
+
+### 8. Конец раньше начала → 400
+POST {{host}}/api/bookings
+Content-Type: application/json
+
+{ "equipmentId": 10, "employeeId": 2, "startAt": "2026-11-13T16:00", "endAt": "2026-11-13T15:00", "purpose": "Лекция" }
+
+### 9. Оборудование на обслуживании (JBL, Id 9) → 409
+POST {{host}}/api/bookings
+Content-Type: application/json
+
+{ "equipmentId": 9, "employeeId": 1, "startAt": "2026-11-13T10:00", "endAt": "2026-11-13T12:00", "purpose": "Концерт" }
+
+### 10. Отменить бронь с причиной → 200 (подставьте Id из ответа запроса 5)
+POST {{host}}/api/bookings/15/cancel
+Content-Type: application/json
+
+{ "reason": "Семинар перенесён" }
+
+### 11. Повторная отмена → 409
+POST {{host}}/api/bookings/15/cancel
+Content-Type: application/json
+
+{ "reason": "Ещё раз" }
+
+### 12. Текущие брони / завершённые
+GET {{host}}/api/bookings?tab=current
+
+###
+GET {{host}}/api/bookings?tab=finished
